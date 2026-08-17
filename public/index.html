@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jay Footware — curated ukay-ukay shoes from well-known brands.">
+  <title>Jay Footware | Pre-loved shoes, fresh steps</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="announcement">NATIONWIDE SHIPPING AVAILABLE ACROSS THE PHILIPPINES</div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Jay Footware home"><span>JAY</span> FOOTWEAR</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#new">New finds</a><a href="#shop">Shop shoes</a><a href="#story">Our story</a><a class="admin-link is-hidden" href="/admin.html">Admin</a>
+    </nav>
+    <div class="header-actions">
+      <button class="text-button" id="authButton">Sign in / Sign up</button>
+      <button class="icon-button" id="bagButton" aria-label="Shopping bag">Bag <span id="bagCount">0</span></button>
+      <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#new">New finds</a><a href="#shop">Shop shoes</a><a href="#story">Our story</a><a class="admin-link is-hidden" href="/admin.html">Admin</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="eyebrow light">ONE-OF-ONE FINDS</p>
+        <h1>PRE-LOVED.<br><em>RE-STEPPED.</em></h1>
+        <p>Authentic ukay-ukay shoes, carefully selected and ready for their next story.</p>
+        <a class="button button-light" href="#shop">Shop all shoes</a>
+      </div>
+    </section>
+
+    <section class="marquee" aria-label="Store benefits">
+      <span>✓ CLEANED & INSPECTED</span><span>•</span><span>ALL-BRAND FINDS</span><span>•</span><span>AFFORDABLE ORIGINALS</span><span>•</span><span>DAVAO-BASED</span>
+    </section>
+
+    <section class="section new-section" id="new">
+      <span id="shop" class="sr-only" aria-hidden="true"></span>
+      <div class="section-heading split">
+        <div><p class="eyebrow">JUST DROPPED</p><h2>Fresh from the rack</h2></div>
+        <a class="arrow-link" href="#shop">View all <span>→</span></a>
+      </div>
+      <div class="product-grid" id="productGrid"><p class="loading">Loading today’s finds…</p></div>
+    </section>
+
+    <section class="story" id="story">
+      <div class="story-mark" aria-hidden="true">JF</div>
+      <div class="story-copy">
+        <p class="eyebrow light">WHY JAY FOOTWEAR?</p>
+        <h2>Good shoes deserve another run.</h2>
+        <p>We rescue quality pairs, inspect every detail, and make branded footwear easier to own. Every scuff has a story—and every pair is ready for yours.</p>
+        <div class="stats"><div><strong>100%</strong><span>hand-inspected</span></div><div><strong>6+</strong><span>brands in stock</span></div><div><strong>₱</strong><span>budget-friendly</span></div></div>
+      </div>
+    </section>
+
+    <section class="section records-section is-hidden" id="records">
+      <div class="section-heading">
+        <p class="eyebrow">ADMIN MANAGEMENT</p><h2>Store management tables</h2>
+        <p class="heading-note">Products, orders, customers, suppliers, and cashier accounts—all integrated into the storefront.</p>
+        <div class="database-status" id="databaseStatus"><span class="status-dot"></span><strong>Database connected</strong><span id="schemaSummary">Checking normalized ERD tables…</span></div>
+      </div>
+      <div id="recordTables"><p class="loading">Loading records…</p></div>
+    </section>
+
+    <section class="newsletter">
+      <div><p class="eyebrow light">GET FIRST DIBS</p><h2>New pairs. No spam.</h2><p>Hear about fresh ukay-ukay drops before they’re gone.</p></div>
+      <form id="newsletterForm"><label class="sr-only" for="newsletterEmail">Email address</label><input id="newsletterEmail" type="email" placeholder="Email address" required><button type="submit">Join the list →</button></form>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#home"><span>JAY</span> FOOTWEAR</a><p>Curated ukay-ukay shoes · Davao, Philippines</p><p>© 2026 Jay Footware</p></footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop is-hidden" id="authModal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+      <div class="modal-brand">JF</div>
+      <h2 id="modalTitle">Welcome back</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Sign in to your Jay Footware account.</p>
+      <div class="tabs" role="tablist"><button class="tab active" id="loginTab" role="tab">Sign in</button><button class="tab" id="signupTab" role="tab">Sign up</button></div>
+      <form id="loginForm" class="auth-form">
+        <label>Username or email<input name="login" autocomplete="username" required placeholder="Enter username or email"></label>
+        <label>Password<span class="password-field"><input name="password" type="password" autocomplete="current-password" required placeholder="Enter password"><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span></label>
+        <button class="button button-dark" type="submit">Sign in</button>
+      </form>
+      <form id="signupForm" class="auth-form is-hidden">
+        <label>Full name<input name="fullName" autocomplete="name" required placeholder="Your full name"></label>
+        <label>Username<input name="username" autocomplete="username" minlength="3" required placeholder="Choose a username"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label>Password<span class="password-field"><input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span></label>
+        <button class="button button-dark" type="submit">Create account</button>
+      </form>
+      <div id="googleArea" class="google-area is-hidden"><div class="or"><span>or</span></div><div id="googleButton"></div></div>
+      <p class="form-message" id="formMessage" aria-live="polite"></p>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Management | Jay Footware</title><link rel="stylesheet" href="admin.css"><script src="admin.js" defer></script></head>
+<body>
+<div class="loading-screen" id="loadingScreen">Checking administrator access…</div>
+<div class="admin-shell is-hidden" id="adminShell">
+  <aside class="sidebar">
+    <a class="admin-brand" href="/"><span>JAY</span><b>FOOTWARE</b><small>ADMIN MANAGEMENT</small></a>
+    <nav id="adminNav">
+      <button class="active" data-view="overview"><i>⌂</i>Overview</button>
+      <button data-view="users"><i>♙</i>User accounts</button>
+      <button data-view="inventory"><i>▦</i>Product inventory <em id="lowBadge">0</em></button>
+      <button data-view="suppliers"><i>◇</i>Suppliers</button>
+      <button data-view="purchase-orders"><i>⇣</i>Supplier orders</button>
+      <button data-view="customers"><i>◎</i>Customers</button>
+      <button data-view="sales"><i>₱</i>Sales & receipts</button>
+      <button data-view="reports"><i>↗</i>Reports</button>
+    </nav>
+    <div class="sidebar-bottom"><a href="/">← Storefront</a><button id="logoutButton">Sign out</button></div>
+  </aside>
+  <main class="admin-main">
+    <header class="topbar"><button class="mobile-menu" id="mobileMenu">☰</button><div><p>JAY FOOTWARE</p><h1 id="pageTitle">Overview</h1></div><div class="admin-profile"><span id="adminInitials">JA</span><div><strong id="adminName">Administrator</strong><small>Administrator</small></div></div></header>
+    <div class="content">
+      <section class="view active" id="view-overview">
+        <div class="welcome"><div><p class="kicker">ADMIN CONTROL CENTER</p><h2>Good day, <span id="welcomeName">Admin</span>.</h2><p>Monitor stock, suppliers, sales, and store activity from one place.</p></div><button class="primary" data-go="inventory">Manage inventory →</button></div>
+        <div class="stat-grid"><article><span>Active products</span><strong id="statProducts">—</strong><small>Available product lines</small></article><article><span>Total stock</span><strong id="statStock">—</strong><small>Pairs across variants</small></article><article class="alert-stat"><span>Low-stock alerts</span><strong id="statLow">—</strong><small>At or below reorder level</small></article><article><span>Recorded sales</span><strong id="statSales">—</strong><small>Total transaction value</small></article></div>
+        <div class="panel"><div class="panel-head"><div><p class="kicker">ATTENTION NEEDED</p><h3>Low-stock products</h3></div><button class="text-link" data-go="inventory">View inventory →</button></div><div id="lowStockPreview"></div></div>
+      </section>
+      <section class="view" id="view-users"><div class="page-intro"><div><p class="kicker">ACCESS CONTROL</p><h2>Manage user accounts</h2><p>Review administrator, cashier, and customer-linked system accounts.</p></div></div><div class="panel table-panel" id="usersTable"></div></section>
+      <section class="view" id="view-inventory"><div class="page-intro"><div><p class="kicker">STOCK CONTROL</p><h2>Product inventory</h2><p>Review availability, low-stock warnings, and update stock levels.</p></div></div><div class="notice" id="inventoryNotice"><b>Low-stock alert:</b> Products at or below their reorder level need attention.</div><div class="panel table-panel" id="inventoryTable"></div></section>
+      <section class="view" id="view-suppliers"><div class="page-intro"><div><p class="kicker">SUPPLY NETWORK</p><h2>Manage suppliers</h2><p>Supplier contacts and locations connected to purchase records.</p></div></div><div class="panel table-panel" id="suppliersTable"></div></section>
+      <section class="view" id="view-purchase-orders"><div class="page-intro"><div><p class="kicker">PROCUREMENT</p><h2>Supplier orders & deliveries</h2><p>Track purchase orders and record incoming deliveries.</p></div></div><div class="panel table-panel" id="purchaseOrdersTable"></div></section>
+      <section class="view" id="view-customers"><div class="page-intro"><div><p class="kicker">CUSTOMER RECORDS</p><h2>Maintain customers</h2><p>View customer contact, location, and purchase history summaries.</p></div></div><div class="panel table-panel" id="customersTable"></div></section>
+      <section class="view" id="view-sales"><div class="page-intro"><div><p class="kicker">TRANSACTIONS</p><h2>Sales & receipts</h2><p>Review completed and ongoing sales, then print customer receipts.</p></div></div><div class="panel table-panel" id="salesTable"></div></section>
+      <section class="view" id="view-reports"><div class="page-intro"><div><p class="kicker">BUSINESS REPORTS</p><h2>Generate reports</h2><p>Print the current summary or export operational records as CSV.</p></div></div><div class="report-grid"><button id="printReport"><span>▤</span><b>Print summary report</b><small>Browser-ready operational summary</small></button><button data-export="inventory"><span>↓</span><b>Export inventory CSV</b><small>Stock and reorder information</small></button><button data-export="sales"><span>↓</span><b>Export sales CSV</b><small>Transactions and status</small></button><button data-export="suppliers"><span>↓</span><b>Export suppliers CSV</b><small>Supplier contact directory</small></button></div><div class="panel report-summary" id="reportSummary"></div></section>
+    </div>
+  </main>
+</div>
+<div class="modal-backdrop is-hidden" id="stockModal"><form class="modal" id="stockForm"><button type="button" class="close" id="stockClose">×</button><p class="kicker">UPDATE STOCK LEVEL</p><h2 id="stockProduct">Product</h2><input type="hidden" name="variantId"><label>New stock quantity<input type="number" name="stockQuantity" min="0" step="1" required></label><button class="primary" type="submit">Save stock level</button><p id="stockMessage"></p></form></div>
+<div class="toast" id="adminToast"></div>
+</body></html>
