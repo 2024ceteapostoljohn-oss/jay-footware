@@ -129,8 +129,8 @@ function initDatabase() {
               VALUES (?,?,?,?,1)`).run('admin', adminHash, 'Jay Footware', 'Admin');
   const cashierHash = bcrypt.hashSync(process.env.CASHIER_PASSWORD || 'Cashier123!', 12);
   const cashiers = [
-    ['cashier01','Maria','Lopez'], ['cashier02','John','Ramos'], ['cashier03','Angela','Torres'],
-    ['cashier04','Carlo','Mendoza'], ['cashier05','Bea','Navarro']
+    ['cashier01','Apostol','Yojin'], ['cashier02','Sultan','Najeeb'], ['cashier03','Abram','Kenneth'],
+    ['cashier04','Malong','Ian'], ['cashier05','Jay','Footware']
   ];
   const addCashier = db.prepare(`INSERT OR IGNORE INTO user_account
     (username,password_hash,first_name,last_name,role_id,account_status) VALUES (?,?,?,?,3,'Active')`);
