@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Jay Footware — curated ukay-ukay shoes from well-known brands.">
-  <title>Jay Footware | Pre-loved shoes, fresh steps</title>
+  <meta name="description" content="Jay Footwear — curated ukay-ukay shoes from well-known brands.">
+  <title>Jay Footwear | Pre-loved shoes, fresh steps</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
+  <script src="auth-validate.js" defer></script>
 </head>
 <body>
   <div class="announcement">NATIONWIDE SHIPPING AVAILABLE ACROSS THE PHILIPPINES</div>
   <header class="site-header">
-    <a class="brand" href="#home" aria-label="Jay Footware home"><span>JAY</span> FOOTWEAR</a>
+    <a class="brand" href="#home" aria-label="Jay Footwear home"><span>JAY</span> FOOTWEAR</a>
     <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="#new">New finds</a><a href="#shop">Shop shoes</a><a href="#story">Our story</a><a class="admin-link is-hidden" href="/admin.html">Admin</a>
+      <a href="#new">New finds</a><a href="#shop">Shop shoes</a><a href="#story">Our story</a><a href="#location">Location</a><a class="admin-link is-hidden" href="/admin.html">Admin</a>
     </nav>
     <div class="header-actions">
       <button class="text-button" id="authButton">Sign in / Sign up</button>
-      <button class="icon-button" id="bagButton" aria-label="Shopping bag">Bag <span id="bagCount">0</span></button>
+      <button class="cart-button" id="cartButton" aria-label="Open order details">Order <span id="cartCount">0</span></button>
       <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </header>
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-    <a href="#new">New finds</a><a href="#shop">Shop shoes</a><a href="#story">Our story</a><a class="admin-link is-hidden" href="/admin.html">Admin</a>
+    <a href="#new">New finds</a><a href="#shop">Shop shoes</a><a href="#story">Our story</a><a href="#location">Location</a><a class="admin-link is-hidden" href="/admin.html">Admin</a>
   </nav>
 
   <main>
@@ -67,35 +68,176 @@
       <div id="recordTables"><p class="loading">Loading records…</p></div>
     </section>
 
+    <section class="shop-location" id="location">
+      <div class="location-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div><p class="eyebrow">VISIT OUR SHOP</p><h2>Find us in Polomolok</h2><address>Champaca Street, Brgy. Poblacion, Polomolok</address><p>Right in front of L.A. Sari-Sari Store</p></div>
+    </section>
+
     <section class="newsletter">
       <div><p class="eyebrow light">GET FIRST DIBS</p><h2>New pairs. No spam.</h2><p>Hear about fresh ukay-ukay drops before they’re gone.</p></div>
       <form id="newsletterForm"><label class="sr-only" for="newsletterEmail">Email address</label><input id="newsletterEmail" type="email" placeholder="Email address" required><button type="submit">Join the list →</button></form>
     </section>
   </main>
 
-  <footer><a class="brand footer-brand" href="#home"><span>JAY</span> FOOTWEAR</a><p>Curated ukay-ukay shoes · Davao, Philippines</p><p>© 2026 Jay Footware</p></footer>
+  <footer><a class="brand footer-brand" href="#home"><span>JAY</span> FOOTWEAR</a><p>Curated ukay-ukay shoes · Davao, Philippines</p><p>© 2026 Jay Footwear</p></footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop is-hidden" id="productModal">
+    <section class="product-modal" role="dialog" aria-modal="true" aria-labelledby="productModalName">
+      <button class="modal-close" id="productModalClose" aria-label="Close">×</button>
+      <div class="product-modal-image"><img id="productModalImage" src="" alt=""></div>
+      <div class="product-modal-copy"><p class="eyebrow" id="productModalBrand">BRAND</p><h2 id="productModalName">Product</h2><p id="productModalMeta"></p><p class="product-modal-price" id="productModalPrice">₱0</p><p class="product-modal-stock" id="productModalStock"></p><label>Quantity<input id="productQuantity" type="number" min="1" value="1"></label><button class="button button-dark" id="addToOrder">Add to order</button><p class="product-pickup-note">Available for nationwide shipping or pickup at Champaca Street, Brgy. Poblacion, Polomolok.</p></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop is-hidden" id="orderModal">
+    <section class="order-modal" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+      <button class="modal-close" id="orderModalClose" aria-label="Close">×</button>
+      <p class="eyebrow">YOUR CART</p><h2 id="orderTitle">Order details</h2>
+      <div id="orderItems" class="order-items"></div>
+      <div class="order-total"><span>Total</span><strong id="orderTotal">₱0</strong></div>
+      <div id="checkoutGuest" class="checkout-guest is-hidden"><p>Sign in or create an account to place this order.</p><button class="button button-dark" id="checkoutSignIn">Sign in / Sign up</button></div>
+      <form id="checkoutForm" class="checkout-form is-hidden">
+        <h3>Shipping information</h3>
+        <div class="checkout-grid"><label class="full">House / Street<input name="houseStreet" required></label><label>Barangay<input name="barangay" required></label><label>City / Municipality<input name="city" required></label><label>Province<input name="province" required></label><label>Postal code<input name="postalCode"></label><label class="full">Payment method<select name="methodId" id="checkoutPayment" required></select></label></div>
+        <button class="button button-dark" type="submit">Place order</button><p class="form-message" id="checkoutMessage"></p>
+      </form>
+      <div id="orderSuccess" class="order-success is-hidden"></div>
+    </section>
+  </div>
+
   <div class="modal-backdrop is-hidden" id="authModal">
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalClose" aria-label="Close">×</button>
       <div class="modal-brand">JF</div>
       <h2 id="modalTitle">Welcome back</h2>
-      <p class="modal-subtitle" id="modalSubtitle">Sign in to your Jay Footware account.</p>
+      <p class="modal-subtitle" id="modalSubtitle">Sign in to your Jay Footwear account.</p>
       <div class="tabs" role="tablist"><button class="tab active" id="loginTab" role="tab">Sign in</button><button class="tab" id="signupTab" role="tab">Sign up</button></div>
-      <form id="loginForm" class="auth-form">
-        <label>Username or email<input name="login" autocomplete="username" required placeholder="Enter username or email"></label>
-        <label>Password<span class="password-field"><input name="password" type="password" autocomplete="current-password" required placeholder="Enter password"><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span></label>
+      <form id="loginForm" class="auth-form" novalidate>
+        <label>Username or email<input name="login" autocomplete="username" required placeholder="Enter username or email"><em class="error" data-error="login" aria-live="polite"></em></label>
+        <label>Password<span class="password-field"><input name="password" type="password" autocomplete="current-password" required placeholder="Enter password"><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span><em class="error" data-error="password" aria-live="polite"></em></label>
         <button class="button button-dark" type="submit">Sign in</button>
       </form>
-      <form id="signupForm" class="auth-form is-hidden">
-        <label>Full name<input name="fullName" autocomplete="name" required placeholder="Your full name"></label>
-        <label>Username<input name="username" autocomplete="username" minlength="3" required placeholder="Choose a username"></label>
-        <label>Email<input name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
-        <label>Password<span class="password-field"><input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span></label>
+      <form id="signupForm" class="auth-form is-hidden" novalidate>
+        <p class="req-note"><span class="req">*</span> Required field</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="suFirst">First Name<span class="req"> *</span></label>
+            <input id="suFirst" name="firstName" autocomplete="given-name" maxlength="80" required>
+            <em class="error" data-error="firstName" aria-live="polite"></em>
+          </div>
+          <div class="field">
+            <label for="suMiddle">Middle Name</label>
+            <input id="suMiddle" name="middleName" autocomplete="additional-name" maxlength="80">
+            <em class="error" data-error="middleName" aria-live="polite"></em>
+          </div>
+          <div class="field">
+            <label for="suLast">Last Name<span class="req"> *</span></label>
+            <input id="suLast" name="lastName" autocomplete="family-name" maxlength="80" required>
+            <em class="error" data-error="lastName" aria-live="polite"></em>
+          </div>
+          <div class="field">
+            <label for="suSuffix">Suffix</label>
+            <input id="suSuffix" name="suffix" maxlength="20">
+            <em class="error" data-error="suffix" aria-live="polite"></em>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="suDob">Date of Birth<span class="req"> *</span></label>
+            <input id="suDob" name="dateOfBirth" type="date" max="2999-12-31" required>
+            <em class="error" data-error="dateOfBirth" aria-live="polite"></em>
+          </div>
+          <div class="field">
+            <label for="suAge">Age<span class="req"> *</span></label>
+            <input id="suAge" name="age" readonly tabindex="-1" placeholder="auto" aria-readonly="true">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="suEmail">Email<span class="req"> *</span></label>
+            <input id="suEmail" name="email" type="email" autocomplete="email" maxlength="254" required>
+            <em class="error" data-error="email" aria-live="polite"></em>
+          </div>
+          <div class="field">
+            <label for="suEmail2">Confirm Email<span class="req"> *</span></label>
+            <input id="suEmail2" name="confirmEmail" type="email" autocomplete="email" maxlength="254" required>
+            <em class="error" data-error="confirmEmail" aria-live="polite"></em>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="suPhone">Philippine Phone Number<span class="req"> *</span></label>
+          <input id="suPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+639XXXXXXXXX" maxlength="20" required>
+          <em class="error" data-error="phone" aria-live="polite"></em>
+        </div>
+
+        <div class="field">
+          <label for="suPassword">Password<span class="req"> *</span></label>
+          <span class="password-field"><input id="suPassword" name="password" type="password" autocomplete="new-password" maxlength="128" required><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span>
+          <div class="strength-meter" id="suStrength"><span></span></div>
+          <em class="error" data-error="password" aria-live="polite"></em>
+        </div>
+        <div class="field">
+          <label for="suPassword2">Confirm Password<span class="req"> *</span></label>
+          <span class="password-field"><input id="suPassword2" name="confirmPassword" type="password" autocomplete="new-password" maxlength="128" required><button class="password-toggle" type="button" aria-label="Show password" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed is-hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 6.2A11.7 11.7 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-2.1 2.8M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span>
+          <em class="error" data-error="confirmPassword" aria-live="polite"></em>
+        </div>
+
+        <h3 class="form-section">Address</h3>
+        <div class="field">
+          <label for="suCountry">Country<span class="req"> *</span></label>
+          <select id="suCountry" name="country" required><option value="">— Select country —</option></select>
+          <em class="error" data-error="country" aria-live="polite"></em>
+        </div>
+        <div class="field">
+          <label for="suRegion">Region<span class="req"> *</span></label>
+          <select id="suRegion" name="region" required disabled><option value="">— Select region —</option></select>
+          <em class="error" data-error="region" aria-live="polite"></em>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="suProvince">Province<span class="req"> *</span></label>
+            <select id="suProvince" name="province" required disabled><option value="">— Select province —</option></select>
+            <em class="error" data-error="province" aria-live="polite"></em>
+          </div>
+          <div class="field">
+            <label for="suZip">ZIP / Postal Code</label>
+            <input id="suZip" name="zip" inputmode="numeric" maxlength="4" placeholder="4 digits">
+            <em class="error" data-error="zip" aria-live="polite"></em>
+          </div>
+        </div>
+        <div class="field">
+          <label for="suCity">City / Municipality<span class="req"> *</span></label>
+          <div class="combo">
+            <input id="suCity" name="city" autocomplete="off" placeholder="Type to search…" required>
+            <ul class="combo-list" role="listbox" aria-label="City / Municipality"></ul>
+          </div>
+          <em class="error" data-error="city" aria-live="polite"></em>
+        </div>
+        <div class="field">
+          <label for="suBarangay">Barangay<span class="req"> *</span></label>
+          <div class="combo">
+            <input id="suBarangay" name="barangay" autocomplete="off" placeholder="Type to search…" required>
+            <ul class="combo-list" role="listbox" aria-label="Barangay"></ul>
+          </div>
+          <em class="error" data-error="barangay" aria-live="polite"></em>
+        </div>
+        <div class="field">
+          <label for="suStreet">Street Address<span class="req"> *</span></label>
+          <input id="suStreet" name="street" maxlength="200" placeholder="House number and street" required>
+          <em class="error" data-error="street" aria-live="polite"></em>
+        </div>
+
+        <p class="draft-note" id="draftNote" role="note"></p>
         <button class="button button-dark" type="submit">Create account</button>
       </form>
       <div id="googleArea" class="google-area is-hidden"><div class="or"><span>or</span></div><div id="googleButton"></div></div>
+      <p class="auth-switch" id="authSwitchPrompt">New to Jay Footwear? <button type="button" id="authSwitchButton">Create an account</button></p>
       <p class="form-message" id="formMessage" aria-live="polite"></p>
     </section>
   </div>

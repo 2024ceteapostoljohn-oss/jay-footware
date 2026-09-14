@@ -1,0 +1,30 @@
+====================================================
+ JAY FOOTWEAR — FULL PROJECT (with strict validation)
+====================================================
+
+This folder is your ENTIRE project — every file you pushed to GitHub —
+with the strict Signup & Login validation already applied.
+
+HOW TO OPEN IN VS CODE
+  1. Open VS Code  ->  File -> Open Folder...  ->  pick this folder.
+  2. Open the terminal (Ctrl + `).
+  3. Install packages once:     npm install
+  4. Start the server:          npm start
+     (On Windows PowerShell:    npm.cmd start)
+  5. Open in browser:           http://localhost:3000
+     (Do NOT open index.html directly.)
+
+WHAT CHANGED (validation)
+  - Full signup form in the modal (name, DOB + auto Age, email + confirm,
+    PH phone, password + confirm with strength meter, cascading address).
+  - Cascading Philippine address: Country->Region->Province->City->Barangay.
+  - Field-level errors, red/green highlighting, toast notifications.
+  - Strict email, PH mobile (normalized to +63 9xx), date/age, strong password.
+  - Autosave (never saves passwords). Backend re-validates everything.
+  - Login rejects malformed emails.
+
+YOUR ORIGINAL FILES ARE ALL STILL HERE
+  - admin / cashier / owner pages, images, storefront, database, docs, etc.
+
+Full report + step-by-step guide:  docs/Special-Requirement-Signup-Login-Validation.md
+====================================================
